@@ -1,0 +1,73 @@
+apiVersion: devices.kubeedge.io/v1alpha2
+kind: Device
+metadata:
+  name: camera01
+  labels:
+    model: sample
+spec:
+  deviceModelRef:
+    name: direct-model
+  protocol:
+    customizedProtocol:
+      protocolName: direct
+      configData:
+  nodeSelector:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: ''
+        operator: In
+        values:
+        - test 
+  propertyVisitors:
+    - propertyName: reboot
+      customizedProtocol:
+        protocolName: direct
+        configData:
+          method: SystemReboot
+      customizedValues:
+        reportNumber: 1
+    - propertyName: saveFrame
+      customizedProtocol:
+        protocolName: direct
+        configData:
+          method: SaveFrame
+          format: jpg
+          outputDir: /output
+          frameCount: 50
+          frameInterval: 1000
+      customizedValues:
+        reportNumber: 1
+    - propertyName: saveVideo
+      customizedProtocol:
+        protocolName: direct
+        configData:
+          method: SaveVideo
+          frameCount: 1000
+          format: mp4
+          outputDir: /output
+      customizedValues:
+        reportNumber: 1
+status:
+  twins:
+    - propertyName: saveFrame
+      reported:
+        metadata:
+          timestamp: '1550049403598'
+          type: boolean
+        value: "false"
+      desired:
+        metadata:
+          timestamp: '1550049403598'
+          type: boolean
+        value: "true"
+    - propertyName: saveVideo
+      reported:
+        metadata:
+          timestamp: '1550049403598'
+          type: boolean
+        value: "false"
+      desired:
+        metadata:
+          timestamp: '1550049403598'
+          type: boolean
+        value: "true"
